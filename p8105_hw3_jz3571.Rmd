@@ -38,3 +38,14 @@ nrow(num_aisle)
 names(which.max(table(insta_df$aisle)))
 
 ```
+
+```{r}
+num_aisle %>% 
+  filter(total_num > 10000) %>% 
+  ggplot() +
+  geom_bar(aes(x = total_num, y = aisle), stat = "identity") +
+  labs(title = "Number of Orders for Different Aisles",
+       x = "Type of Aisel",
+       y = "Number of Order") +
+  theme_classic()
+```
