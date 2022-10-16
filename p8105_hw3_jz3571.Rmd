@@ -203,3 +203,40 @@ As we can see from the figure, the average max temperature for each station acro
 
 Average max temperature in January is around -10-10°C.  An apparent outlier showes in 1982, where the average max temperature is about -14°C. Average max temperature in July is around 20-30 °C. An apparent outlier showes in 1988, where the average max temperature is about 14°C.
 
+## Make a two-panel plot showing (i) tmax vs tmin for the full dataset (note that a scatterplot may not be the best option); and (ii) make a plot showing the distribution of snowfall values greater than 0 and less than 100 separately by year.
+
+
+```{r}
+tmax_tmin = tidy_noaa %>% 
+  mutate(tmin = as.integer(tmin)) %>% 
+  ggplot(aes(x = tmin, y = tmax), na.rm = TRUE) +
+  geom_hex() +
+  geom_smooth() +
+  scale_fill_continuous(type = "viridis") +
+  labs(title = "Heatmap of Daily tmin vs tmin",
+       x = "Min Temp (°C)", 
+       y = "Max Temp (°C)") +
+  theme(plot.title = element_text(hjust = 0.5, size = 12)) +
+  theme(legend.position = "bottom",
+        legend.key.width = unit(0.4, "in"))
+  
+
+snow_value = tidy_noaa %>% 
+  filter(snow > 0 & snow <= 100) %>% 
+  mutate(year = as.factor(year)) %>% 
+  ggplot(aes(x =snow , color = year)) +
+  geom_density(alpha = 0.3) +
+  labs(x = "Snowfall (mm)",
+       y = "Density",
+       title = "Density Plot for Snowfall(mm)") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  theme(legend.position = "bottom",
+        legend.key.size = unit(0.05, "in"))
+
+tmax_tmin + snow_value
+```
+
+From the heatmap, we can see a positive linear relationship between the tmin and tmax, where the lightest color indicates the highest density.
+
+From the snowfall density plot we can see that the snowfall density from 1981 - 2010 have a similar pattern, where 2004 -2010 have more snowfalls between 0-15 mm, indicating these years may have more little snowfalls compared to previous years.
+
