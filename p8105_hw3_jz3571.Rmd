@@ -1,0 +1,40 @@
+---
+title: "p8105_hw3_jz3571"
+author: "Junyan Zhu"
+date: "2022-10-16"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, message=FALSE}
+library(tidyverse)
+library(dplyr)
+library(patchwork)
+library(ggplot2)
+
+```
+
+# Problem 1
+
+```{r}
+library(p8105.datasets)
+data("instacart")
+summary(instacart)
+insta_df = instacart
+```
+
+## How many aisles are there and which aisles are the most items ordered from?
+```{r}
+num_aisle = insta_df %>% 
+  group_by(aisle) %>% 
+  summarise(total_num = n()) %>% 
+  arrange(desc(total_num))
+
+nrow(num_aisle)
+
+names(which.max(table(insta_df$aisle)))
+
+```
