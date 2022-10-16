@@ -79,3 +79,20 @@ mean_hr_df = insta_df %>%
 
 mean_hr_df
 ```
+
+# Problem 2
+
+```{r}
+acc_df = read_csv("./data/accel_data.csv") %>% 
+  janitor::clean_names()
+```
+
+## Load, tidy, and otherwise wrangle the data. Your final dataset should include all originally observed variables and values; have useful variable names; include a weekday vs weekend variable; and encode data with reasonable variable classes. Describe the resulting dataset (e.g. what variables exist, how many observations, etc).
+
+```{r}
+tidy_acc_df = acc_df %>% 
+  mutate(weekdays = ifelse(day == "Saturday" | day =="Sunday", 'weekend', 'weekday')) %>% 
+  mutate(activity_daysum = rowSums(.[4:1443]))
+```
+
+There are total 35 days of observations and 1443 variables exist, including week, day, day-id, and 1440 variables for each minute in a day. The new created weekdays variable specifies whether a recorded day belongs to weekday or weekend, and activity_daysum variable reflects the total activity count for a specific day by summing all 1440 counts for a day.
