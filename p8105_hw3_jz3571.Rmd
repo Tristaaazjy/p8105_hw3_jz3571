@@ -49,3 +49,33 @@ num_aisle %>%
        y = "Number of Order") +
   theme_classic()
 ```
+
+```{r}
+three_pop_df = insta_df %>% 
+  filter(aisle == c("baking ingredients", "dog food care", "packaged vegetables fruits")) %>% 
+  group_by(aisle, product_name) %>% 
+  summarise(count = n()) %>% 
+  mutate(rank = min_rank(desc(count))) %>% 
+  filter(rank <= 3) %>% 
+  arrange(aisle, rank)
+
+three_pop_df
+```
+
+```{r}
+mean_hr_df = insta_df %>% 
+  filter(product_name %in% c("Pink Lady Apples", 'Coffee Ice Cream')) %>% 
+  select(order_dow, order_hour_of_day, product_name) %>% 
+  group_by(order_dow, product_name) %>% 
+  summarise(mean(order_hour_of_day)) %>% 
+  mutate(order_dow = recode(order_dow,
+                            '0' = 'Sunday',
+                            '1' = 'Monday',
+                            '2' = 'Tuesday',
+                            '3' = 'Wednesday',
+                            '4' = 'Thursday',
+                            '5' = 'Friday',
+                            '6' = 'Saturday'))
+
+mean_hr_df
+```
