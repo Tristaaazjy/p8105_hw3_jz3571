@@ -96,3 +96,30 @@ tidy_acc_df = acc_df %>%
 ```
 
 There are total 35 days of observations and 1443 variables exist, including week, day, day-id, and 1440 variables for each minute in a day. The new created weekdays variable specifies whether a recorded day belongs to weekday or weekend, and activity_daysum variable reflects the total activity count for a specific day by summing all 1440 counts for a day.
+
+## Traditional analyses of accelerometer data focus on the total activity over the day. Using your tidied dataset, aggregate across minutes to create a total activity variable for each day, and create a table showing these totals. Are any trends apparent?
+
+```{r}
+tidy_acc_df %>%  
+  select(week, day, activity_daysum) %>% 
+  arrange(week, day) %>% 
+  knitr::kable()
+```
+There is no obvious pattern if we extract the table for total activity acount for each day. Let's try grouping the activity acount by specific day in the week.
+
+```{r}
+tidy_acc_df %>% 
+  group_by(day) %>% 
+  summarise(mean_acitivity = mean(activity_daysum)) %>% 
+  knitr::kable()
+```
+There is still no obvious patter showed on the mean of activity for each specific day in the week. Wednesday, Thursday and Friday has higher activity acount than other days.
+Let's try grouping by weekdays and weekends.
+
+```{r}
+tidy_acc_df %>% 
+  group_by(weekdays) %>% 
+  summarise(mean_activity = mean(activity_daysum)) %>% 
+  knitr::kable()
+```
+Now we can see that weekdays have higher mean value of daily activity count than weekends.
